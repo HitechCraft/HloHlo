@@ -1,5 +1,5 @@
 It online auction project.
 Логин и пароль в админку создайте себе сами
-Но сперва нужно сделать python3(можно без 3 у кого как) manage.py migrate
+Но сперва нужно выполнить python3(можно без 3 у кого как) manage.py migrate
 а затем python3 manage.py createsuperuser
 
