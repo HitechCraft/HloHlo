@@ -24,6 +24,7 @@ class UserAdmin(UserAdmin):
                 ('Personal info', {
                  'fields': (
                     'firstname',
+                    'user_type',
                     'mobile',
                     'skype',
                  )}),
@@ -37,6 +38,7 @@ class UserAdmin(UserAdmin):
             'fields': (
                 'email',
                 'firstname',
+                'user_type',
                 'mobile',
                 'skype',
                 'password1',

@@ -60,11 +60,11 @@ class ExtUser(AbstractBaseUser, PermissionsMixin):
         (0, 'Частное лицо'),
         (1, 'Компания'),
     )
-    user_type = models.CharField(
+    user_type = models.IntegerField(
         'Тип пользователя',
-        max_length=16,
+        max_length=1,
         choices=user_type_select,
-        default="Частное лицо"
+        default=0
     )
 
     rate = models.IntegerField(
