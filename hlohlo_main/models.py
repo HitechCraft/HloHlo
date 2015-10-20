@@ -1,6 +1,20 @@
 from django.db import models
 from extuser.models import ExtUser
 
+class Category(models.Model):
+    name = models.CharField(
+        'Название',
+        max_length=50
+    )
+    desription = models.TextField(
+        'Описание'
+    )
+    subcategory = models.ForeignKey('self', blank=True, null=True)
+    def __str__(self):
+        return self.name
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
 
 class Lot(models.Model):
     name = models.CharField(
