@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractBaseUser
+﻿from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 from django.db import models
@@ -67,7 +67,8 @@ class ExtUser(AbstractBaseUser, PermissionsMixin):
     ip = models.GenericIPAddressField(
         'IP Address',
         max_length=15,
-        unique=True
+        unique=True,
+        default='0.0.0.0'
     )
 
     rate = models.IntegerField(
