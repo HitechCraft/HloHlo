@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import BaseUserManager
 from django.db import models
+from django.core.validators import RegexValidator
 
 
 class UserManager(BaseUserManager):
@@ -34,32 +35,9 @@ class ExtUser(AbstractBaseUser, PermissionsMixin):
         unique=True,
         db_index=True
     )
-    avatar = models.ImageField(
-        'Аватар',
-        blank=True,
-        null=True,
-        upload_to="user/avatar"
-    )
     firstname = models.CharField(
-        'Фамилия',
-        max_length=40,
-        null=True,
-        blank=True
-    )
-    lastname = models.CharField(
-        'Имя',
-        max_length=40,
-        null=True,
-        blank=True
-    )
-    middlename = models.CharField(
-        'Отчество',
-        max_length=40,
-        null=True,
-        blank=True
-    )
-    date_of_birth = models.DateField(
-        'Дата рождения',
+        'Имя/Наименование',
+        max_length=50,
         null=True,
         blank=True
     )
@@ -67,6 +45,34 @@ class ExtUser(AbstractBaseUser, PermissionsMixin):
         'Дата регистрации',
         auto_now_add=True
     )
+    mobile = models.CharField(
+        'Мобильный телефон',
+        max_length=50,
+        validators=[RegexValidator(r'^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$', "Мобильный телефон имеет неверный формат")]
+    )
+    skype = models.CharField(
+        'Логин Skype',
+        max_length=32
+    )
+    user_type_select = (
+        (0, 'Частное лицо'),
+        (1, 'Компания'),
+    )
+    user_type = models.CharField(
+        'Тип пользователя',
+        max_length=16,
+        choices=user_type_select,
+        default="Частное лицо"
+    )
+    ip = models.GenericIPAddressField(
+        'IP Address',
+        max_length=15,
+        unique=True
+    )
+
+    rate = models.IntegerField(
+    )
+
     is_active = models.BooleanField(
         'Активен',
         default=True

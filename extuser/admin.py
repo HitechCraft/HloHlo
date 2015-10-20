@@ -12,12 +12,9 @@ class UserAdmin(UserAdmin):
     add_form = UserCreationForm
 
     list_display = [
-        'date_of_birth',
         'email',
         'firstname',
         'is_admin',
-        'lastname',
-        'middlename',
     ]
 
     list_filter = ('is_admin',)
@@ -26,11 +23,7 @@ class UserAdmin(UserAdmin):
                 (None, {'fields': ('email', 'password')}),
                 ('Personal info', {
                  'fields': (
-                     'avatar',
-                     'date_of_birth',
                      'firstname',
-                     'lastname',
-                     'middlename',
                  )}),
                 ('Permissions', {'fields': ('is_admin',)}),
                 ('Important dates', {'fields': ('last_login',)}),
@@ -40,7 +33,6 @@ class UserAdmin(UserAdmin):
         (None, {
             'classes': ('wide',),
             'fields': (
-                'date_of_birth',
                 'email',
                 'password1',
                 'password2'
