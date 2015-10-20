@@ -48,11 +48,13 @@ class ExtUser(AbstractBaseUser, PermissionsMixin):
     mobile = models.CharField(
         'Мобильный телефон',
         max_length=50,
-        validators=[RegexValidator(r'^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$', "Мобильный телефон имеет неверный формат")]
+        validators=[RegexValidator(r'^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$', "Мобильный телефон имеет неверный формат")],
+        default='',
     )
     skype = models.CharField(
         'Логин Skype',
-        max_length=32
+        max_length=32,
+        default=''
     )
     user_type_select = (
         (0, 'Частное лицо'),
@@ -64,13 +66,9 @@ class ExtUser(AbstractBaseUser, PermissionsMixin):
         choices=user_type_select,
         default="Частное лицо"
     )
-    ip = models.GenericIPAddressField(
-        'IP Address',
-        max_length=15,
-        unique=True
-    )
 
     rate = models.IntegerField(
+        default=0,
     )
 
     is_active = models.BooleanField(

@@ -23,7 +23,9 @@ class UserAdmin(UserAdmin):
                 (None, {'fields': ('email', 'password')}),
                 ('Personal info', {
                  'fields': (
-                     'firstname',
+                    'firstname',
+                    'mobile',
+                    'skype',
                  )}),
                 ('Permissions', {'fields': ('is_admin',)}),
                 ('Important dates', {'fields': ('last_login',)}),
@@ -34,6 +36,9 @@ class UserAdmin(UserAdmin):
             'classes': ('wide',),
             'fields': (
                 'email',
+                'firstname',
+                'mobile',
+                'skype',
                 'password1',
                 'password2'
             )}
