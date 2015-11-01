@@ -62,7 +62,6 @@ class ExtUser(AbstractBaseUser, PermissionsMixin):
     )
     user_type = models.IntegerField(
         'Тип пользователя',
-        max_length=1,
         choices=user_type_select,
         default=0
     )
