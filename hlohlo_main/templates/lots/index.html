@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+{% if latest_lot_list %}
+    <ul>
+    {% for lot in latest_lot_list %}
+        <li><a href="{% url 'detail' lot.id %}">{{ lot.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Лотов еще нет.</p>
+{% endif %}
+ <li><a href="{% url 'add' %}">Добавить новый лот</a></li>
+</body>
+</html>

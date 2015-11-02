@@ -49,7 +49,7 @@ class UserChangeForm(forms.ModelForm):
 
     def save(self, commit=True):
         user = super(UserChangeForm, self).save(commit=False)
-        password = self.cleaned_data["password"]
+        password = self.password
         if password:
             user.set_password(password)
         if commit:

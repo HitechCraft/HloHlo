@@ -19,3 +19,17 @@ class Lot(models.Model):
     def __str__(self):
 
         return self.name
+
+    class Meta:
+        verbose_name = 'лот'
+        verbose_name_plural = 'лоты'
+
+
+class Category(models.Model):
+    name = models.CharField('Название', max_length=255)
+    description = models.TextField('Описание', max_length=1500)
+    sub_category = models.OneToOneField('self')
+
+    def __str__(self):
+
+        return self.name
