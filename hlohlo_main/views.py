@@ -5,7 +5,6 @@ from django.views import generic
 from .forms import AddLotForm
 from .models import Lot
 # Create your views here.
-<<<<<<< HEAD
 
 
 class AddLotView(generic.CreateView):
@@ -32,7 +31,7 @@ def add_lot(request):
 
     return render(request, 'lots/add_lot.html')
 """
-=======
+
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import RequestContext, loader
@@ -41,4 +40,3 @@ from django.template import RequestContext, loader
 def index(request):
     template = loader.get_template('index.html')
     return HttpResponse(template.render())
->>>>>>> 3333cda9b2aff3f4602bd59339cca8bd8d2f1400
