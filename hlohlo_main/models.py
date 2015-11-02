@@ -15,3 +15,7 @@ class Lot(models.Model):
     author = models.OneToOneField(ExtUser, related_name='author_profile')
     buyer = models.OneToOneField(ExtUser, related_name='buyer_profile')
     # Subscribers = ForeignKey(ExtUser, related_name='subscriber_profiles')
+
+    def __str__(self):
+
+        return self.name
