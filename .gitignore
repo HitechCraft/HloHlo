@@ -1,2 +1,7 @@
 .directory
 /__pycache__/*
+hlohlo_main/migrations/__pycache__/
+hlohlo_main/__pycache__/
+extuser/migrations/__pycache__/
+extuser/__pycache__/
+HloHlo/__pycache__/
