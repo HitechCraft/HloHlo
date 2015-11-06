@@ -10,6 +10,4 @@ urlpatterns = [
     url(r'^add/$', views.AddLotView.as_view(), name='add'),
     url(r'^$', views.index, name='index'),
     url(r'^(?P<lot_id>[0-9]+)/$', views.detail, name='detail'),
-
-    url(r'^$', views.index, name='index'),
 ]

@@ -1,10 +1,7 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse
 from django.views import generic
 from .forms import AddLotForm
 from .models import Lot
-# Create your views here.
 
 
 class AddLotView(generic.CreateView):
@@ -32,11 +29,4 @@ def add_lot(request):
     return render(request, 'lots/add_lot.html')
 """
 
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.template import RequestContext, loader
 
-
-def index(request):
-    template = loader.get_template('index.html')
-    return HttpResponse(template.render())
