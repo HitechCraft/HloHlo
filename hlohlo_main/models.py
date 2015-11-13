@@ -40,7 +40,7 @@ class Category(models.Model):
 class Lots(models.Model):
     name = models.CharField('Название', max_length=255)
     description = models.TextField('Описание')
-    lots = models.ForeignKey('Lot')
+    lots = models.ManyToManyField('Lot')
 
     def __str__(self):
         return self.name
@@ -63,7 +63,7 @@ class CityDistrict(models.Model):
 
 class City(models.Model):
     name = models.CharField('Название', max_length=255)
-    cityDistricts = models.ForeignKey('CityDistrict')
+    cityDistricts = models.ManyToManyField('CityDistrict')
 
     def __str__(self):
         return self.name
@@ -75,7 +75,7 @@ class City(models.Model):
 
 class Region(models.Model):
     name = models.CharField('Название', max_length=255)
-    cities = models.ForeignKey('City')
+    cities = models.ManyToManyField('City')
 
     def __str__(self):
         return self.name
