@@ -1,6 +1,7 @@
 from django.db import models
 from extuser.models import ExtUser
 
+
 class Lot(models.Model):
     name = models.CharField('Название', max_length=255)
     description = models.TextField('Описание')
@@ -16,7 +17,6 @@ class Lot(models.Model):
     # Subscribers = ForeignKey(ExtUser, related_name='subscriber_profiles')
 
     def __str__(self):
-
         return self.name
 
     class Meta:
@@ -30,8 +30,12 @@ class Category(models.Model):
     sub_category = models.OneToOneField('self')
 
     def __str__(self):
-
         return self.name
+
+    class Meta:
+        verbose_name = 'категории лотов'
+        verbose_name_plural = 'категории лотов'
+
 
 class Lots(models.Model):
     name = models.CharField('Название', max_length=255)
@@ -45,6 +49,7 @@ class Lots(models.Model):
         verbose_name = 'коллекция лотов'
         verbose_name_plural = 'коллекции лотов'
 
+
 class CityDistrict(models.Model):
     name = models.CharField('Название', max_length=255)
 
@@ -54,6 +59,7 @@ class CityDistrict(models.Model):
     class Meta:
         verbose_name = 'район'
         verbose_name_plural = 'районы'
+
 
 class City(models.Model):
     name = models.CharField('Название', max_length=255)
@@ -65,6 +71,7 @@ class City(models.Model):
     class Meta:
         verbose_name = 'город'
         verbose_name_plural = 'города'
+
 
 class Region(models.Model):
     name = models.CharField('Название', max_length=255)
