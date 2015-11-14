@@ -26,8 +26,8 @@ class Lot(models.Model):
 
 class Category(models.Model):
     name = models.CharField('Название', max_length=255)
-    description = models.TextField('Описание', max_length=1500)
-    sub_category = models.OneToOneField('self')
+    description = models.TextField('Описание', max_length=1500, blank=True)
+    sub_category = models.ManyToManyField('self', blank=True, null=True)
 
     def __str__(self):
         return self.name
