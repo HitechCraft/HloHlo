@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
+from django.core.urlresolvers import reverse_lazy
 from .forms import AddLotForm
 from .models import Lot
 
@@ -9,6 +10,7 @@ class AddLotView(generic.CreateView):
     model = Lot
     template_name = 'lots/add_lot.html'
     form_class = AddLotForm
+    #success_url = reverse_lazy('detail', kwargs={'lot_id': model.objects.last().id + 1})
 
 
 def index(request):
@@ -23,10 +25,9 @@ def detail(request, lot_id):
     lot = get_object_or_404(Lot, id=lot_id)
     return render(request, 'lots/detail.html', {'lot': lot})
 
-"""
+
 def add_lot(request):
 
     return render(request, 'lots/add_lot.html')
-"""
 
 
