@@ -1,13 +1,15 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponseRedirect
 from django.contrib.auth import get_user_model
 from django.views.generic import FormView
 
 
 class UserCreationForm(forms.ModelForm):
 
-    first_name = forms.CharField(
-        label='Имя',
+    firstname = forms.CharField(
+        label='Имя/Наименование',
         error_messages={'required': 'Введите ваше имя'}
     )
 
@@ -146,14 +148,33 @@ class LoginForm(forms.Form):
     
     password = forms.CharField(
         error_messages={'required': 'Введите пароль'},
+        widget=forms.PasswordInput
     )
+
+    def login(self, request):
+        email = request.POST['email']
+        password = request.POST['password']
+        user = authenticate(email=email, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
 
 
 class LoginFormView(FormView):
     form_class = LoginForm
-    success_url = "/"
+    success_url = "/users/profile"
     template_name = "login.html"
 
     def form_valid(self, form):
-        form.save()
+        form.login(self.request)
+
         return super(LoginFormView, self).form_valid(form)
+
+
+class LogoutView(FormView):
+    def get(self, request):
+        # Выполняем выход для пользователя, запросившего данное представление.
+        logout(request)
+
+        # После чего, перенаправляем пользователя на главную страницу.
+        return HttpResponseRedirect("/users/login")

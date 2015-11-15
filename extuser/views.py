@@ -1,5 +1,5 @@
 from django.db.models.functions import Coalesce
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.template import RequestContext, loader
 # Create your views here.
 from .models import ExtUser
@@ -18,6 +18,13 @@ def detail(request, user_id):
     return render(request, 'detail.html', {'user': user})
 
 
+def profile(request):
+    if not request.user.is_authenticated():
+        return redirect('/users/login')
+    else:
+        return render(request, 'profile.html', {'user': request.user})
+
+
 def register(request):
     return render(request, 'register.html')
 
@@ -27,4 +34,7 @@ def edit(request):
 
 
 def login(request):
-    return render(request, 'login.html')
+    if request.user.is_authenticated():
+        return redirect('/users/profile')
+    else:
+        return render(request, 'login.html')

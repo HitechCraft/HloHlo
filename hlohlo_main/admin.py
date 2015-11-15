@@ -1,7 +1,34 @@
 from django.contrib import admin
+from hlohlo_main.forms import LotAddForm, LotChangeForm
 from .models import Lot, Photo, Collection, Category, Region, City, CityDistrict
 
-admin.site.register(Lot)
+
+class LotAdmin(admin.ModelAdmin):
+
+    form = LotChangeForm
+    add_form = LotAddForm
+
+    list_display = ('name',
+                    'description',
+                    'type_auction',
+                    'time_life',
+                    'author',
+                    'price')
+    fieldsets = [
+        (None, {'fields': ['name']}),
+        ('Lot Info', {'fields': [
+                            'description',
+                            'type_auction',
+                            'time_life',
+                            'price',
+                            'category']}),
+    ]
+
+    def save_model(self, request, obj, form, change):
+        obj.author = request.user
+        obj.save()
+
+admin.site.register(Lot, LotAdmin)
 admin.site.register(Collection)
 admin.site.register(Category)
 admin.site.register(Photo)

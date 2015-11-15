@@ -7,12 +7,12 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('hlohlo_main', '0013_lot_category'),
+        ('hlohlo_main', '0002_auto_20151115_1900'),
     ]
 
     operations = [
-        migrations.RenameModel(
-            old_name='Lots',
-            new_name='Collection',
+        migrations.AlterUniqueTogether(
+            name='lot',
+            unique_together=set([('author',)]),
         ),
     ]
