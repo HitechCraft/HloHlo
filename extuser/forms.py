@@ -3,6 +3,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect
 from django.contrib.auth import get_user_model
+from django.shortcuts import redirect
 from django.views.generic import FormView
 
 
@@ -58,24 +59,6 @@ class UserCreationForm(forms.ModelForm):
         fields = ('email', 'firstname', 'mobile', 'skype')
 
 
-class RegisterFormView(FormView):
-    form_class = UserCreationForm
-
-    # Ссылка, на которую будет перенаправляться пользователь в случае успешной регистрации.
-    # В данном случае указана ссылка на страницу входа для зарегистрированных пользователей.
-    success_url = "/users/login/"
-
-    # Шаблон, который будет использоваться при отображении представления.
-    template_name = "register.html"
-
-    def form_valid(self, form):
-        # Создаём пользователя, если данные в форму были введены корректно.
-        form.save()
-
-        # Вызываем метод базового класса
-        return super(RegisterFormView, self).form_valid(form)
-
-
 class UserChangeForm(forms.ModelForm):
 
     """Форма для обновления данных пользователей. Нужна только для того, чтобы не
@@ -128,16 +111,6 @@ class UserChangeForm(forms.ModelForm):
         fields = ['firstname', 'mobile', 'skype']
 
 
-class UserChangeFormView(FormView):
-    form_class = UserChangeForm
-    success_url = "/users/edit/"
-    template_name = "edit.html"
-
-    def form_valid(self, form):
-        form.save()
-        return super(UserChangeFormView, self).form_valid(form)
-
-
 class LoginForm(forms.Form):
 
     """Форма для входа в систему
@@ -158,23 +131,3 @@ class LoginForm(forms.Form):
         if user is not None:
             if user.is_active:
                 login(request, user)
-
-
-class LoginFormView(FormView):
-    form_class = LoginForm
-    success_url = "/users/profile"
-    template_name = "login.html"
-
-    def form_valid(self, form):
-        form.login(self.request)
-
-        return super(LoginFormView, self).form_valid(form)
-
-
-class LogoutView(FormView):
-    def get(self, request):
-        # Выполняем выход для пользователя, запросившего данное представление.
-        logout(request)
-
-        # После чего, перенаправляем пользователя на главную страницу.
-        return HttpResponseRedirect("/users/login")

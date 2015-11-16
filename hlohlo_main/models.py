@@ -1,8 +1,7 @@
 from django.db import models
 from datetime import datetime, time, timedelta, timezone
-from django.utils.dateformat import DateFormat
 from extuser.models import ExtUser
-from django.contrib import admin
+
 
 class Category(models.Model):
     name = models.CharField('Название', max_length=255)
