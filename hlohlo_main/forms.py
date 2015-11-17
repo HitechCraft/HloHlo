@@ -21,7 +21,7 @@ class LotAddForm(forms.ModelForm):
         fields = ('name', 'description', 'type_auction', 'time_life', 'price', 'category',)
 
 
-class LotChangeForm(forms.ModelForm):
+class LotUpdateForm(forms.ModelForm):
 
     name = forms.CharField(
         label="Наименование",
@@ -36,4 +36,4 @@ class LotChangeForm(forms.ModelForm):
 
     class Meta:
         model = Lot
-        fields = '__all__'
+        fields = 'name', 'description', 'type_auction', 'time_life', 'price', 'category',

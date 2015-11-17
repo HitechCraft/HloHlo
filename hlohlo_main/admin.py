@@ -1,11 +1,11 @@
 from django.contrib import admin
-from hlohlo_main.forms import LotAddForm, LotChangeForm
+from hlohlo_main.forms import LotAddForm, LotUpdateForm
 from .models import Lot, Photo, Collection, Category, Region, City, CityDistrict
 
 
 class LotAdmin(admin.ModelAdmin):
 
-    form = LotChangeForm
+    form = LotUpdateForm
     add_form = LotAddForm
 
     list_display = ('name',

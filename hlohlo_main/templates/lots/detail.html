@@ -10,5 +10,7 @@
 {{ lot.time_create }}<br>
 {{ lot.getTimeLeft }}<br>
 {{ lot.description }}<br>
+<a href="{% url 'update' lot.id %}">Изменить</a>
+<a href="{% url 'delete' lot.id %}">Удалить</a>
 </body>
 </html>

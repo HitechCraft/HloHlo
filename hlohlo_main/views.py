@@ -1,14 +1,13 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.core.urlresolvers import reverse_lazy
-from .forms import LotAddForm
+from .forms import LotAddForm, LotUpdateForm
 from hlohlo_main.mixins import NoAuthenticated
 from .models import Lot
 
 
 class LotAddView(NoAuthenticated, generic.CreateView):
     model = Lot
-
     template_name = 'lots/add_lot.html'
     form_class = LotAddForm
 
@@ -18,6 +17,23 @@ class LotAddView(NoAuthenticated, generic.CreateView):
         form.instance.author = self.request.user
 
         return super(LotAddView, self).form_valid(form)
+
+
+class LotUpdateView(generic.UpdateView):
+    model = Lot
+    template_name = 'lots/update_lot.html'
+    form_class = LotUpdateForm
+
+    def get_success_url(self):
+        return reverse_lazy('detail', kwargs={'lot_id': self.get_object().id})
+
+
+class LotDeleteView(generic.DeleteView):
+    model = Lot
+    template_name = 'lots/delete_lot.html'
+
+    def get_success_url(self):
+        return reverse_lazy('index')
 
 
 def index(request):
