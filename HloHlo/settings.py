@@ -108,5 +108,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'extuser.ExtUser'
-MEDIA_ROOT = 'D:\\Projects\\HloHlo\\images'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = '/media/'
