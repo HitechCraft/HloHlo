@@ -8,7 +8,11 @@
 {{ lot.author }}<br>
 {{ lot.name }}<br>
 {{ lot.time_create }}<br>
-{{ lot.getTimeLeft }}<br>
+{{ lot.type_auction|yesno:"Купить сейчас, Аукцион, None" }}
+{% ifchanged %}
+    {{ lot.get_time_left | timeuntil}}
+{% endifchanged %}
+<br>
 {{ lot.description }}<br>
 <a href="{% url 'update' lot.id %}">Изменить</a>
 <a href="{% url 'delete' lot.id %}">Удалить</a>

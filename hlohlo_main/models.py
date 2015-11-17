@@ -30,30 +30,8 @@ class Lot(models.Model):
     buyer = models.ForeignKey(ExtUser, related_name='buyer_profile', default='', null=True)
     # Subscribers = ForeignKey(ExtUser, related_name='subscriber_profiles')
 
-    def getTimeLeft(self):
-        time_string = ''
-        current_time = datetime.now(timezone.utc)
-        time_differ = self.time_create + timedelta(days=self.time_life) - current_time
-        temp=str(time_differ)
-        return temp
-        temp1=temp.split(' ')[2]
-        days=int(temp.split(' ')[0])
-        hours=int(temp1.split(':')[0])
-        mins=int(temp1.split(':')[1])
-        secs=int(temp1.split(':')[2].split('.')[0])
-
-        if days >= 1 and hours >= 0:
-            time_string = "{0} дн. {1} ч.".format(days, hours)
-            return time_string
-        elif hours >= 1 and mins >= 0:
-            time_string = "{0} ч. {1} м.".format(hours, mins)
-            return time_string
-        elif mins >= 1 and secs >= 0:
-            time_string = "{0} м. {1} с.".format(mins, secs)
-            return time_string
-        elif secs >= 1:
-            time_string = "{0} с.".format(secs)
-            return time_string
+    def get_time_left(self):
+        return self.time_create + timedelta(days=self.time_life)
 
     def __str__(self):
         return self.name
