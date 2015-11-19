@@ -36,6 +36,14 @@ class Lot(models.Model):
     def __str__(self):
         return self.name
 
+    def get_next_auto_increment(mymodel):
+        from django.db import connection
+        cursor = connection.cursor()
+        cursor.execute("SELECT Auto_increment FROM information_schema.tables WHERE table_name='" + mymodel._meta.db_table +"'")
+        row = cursor.fetchone()
+        cursor.close()
+        return row[0]
+
     class Meta:
         # unique_together = ('author',)
         verbose_name = 'лот'

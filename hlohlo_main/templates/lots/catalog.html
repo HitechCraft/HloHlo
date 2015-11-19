@@ -1,18 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-    <ul>
+{% extends "index.html" %}
+{% block content %}
+  <ul>
     {% for lot in latest_lot_list %}
         <li><a href="{% url 'detail' lot.id %}">{{ lot.name }}</a></li>
         {% empty %}
         <li>Лотов еще нет.</li>
     {% endfor %}
     </ul>
-
  <li><a href="{% url 'add' %}">Добавить новый лот</a></li>
-</body>
-</html>
+{% endblock %}
+
+

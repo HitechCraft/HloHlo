@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-{{ user.id }}<br>
-{{ user.firstname }}<br>
-{{ user.email }}<br>
-{{ user.register_date}}<br>
-
-<a href="{% url 'logout' %}">Выйти</a>
-</body>
-</html>
+{% extends 'index.html' %}
+{% block content %}
+    <div class="col-lg-12">
+    {{ user.id }}<br>
+    {{ user.firstname }}<br>
+    {{ user.email }}<br>
+    {{ user.register_date}}<br>
+    </div>
+{% endblock %}

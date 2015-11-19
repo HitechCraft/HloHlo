@@ -2,8 +2,7 @@ from django.conf.urls import url
 from . import views
 from . import forms
 
-urlpatterns = [url(r'^$', views.index, name='index'),
-               url(r'^(?P<user_id>[0-9]+)/$', views.detail, name='detail'),
+urlpatterns = [url(r'^(?P<user_id>[0-9]+)/$', views.detail, name='detail'),
                url(r'^profile/$', views.profile, name='profile'),
                url(r'^register/$', views.RegisterFormView.as_view(), name='register'),
                url(r'^edit/$', views.UserChangeFormView.as_view(), name='edit'),
