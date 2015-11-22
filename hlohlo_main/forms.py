@@ -1,6 +1,6 @@
 from django import forms
 from django.shortcuts import redirect
-from .models import Lot, Category
+from .models import Lot, Category, Collection
 
 
 class LotAddForm(forms.ModelForm):
@@ -16,7 +16,8 @@ class LotAddForm(forms.ModelForm):
     )
     type_auction = forms.BooleanField(
         label="Купить сейчас",
-        widget=forms.CheckboxInput(attrs={'class': 'form-control'})
+        widget=forms.CheckboxInput(attrs={'class': 'form-control'}),
+        required=False
     )
 
     time_life = forms.IntegerField(
@@ -25,8 +26,14 @@ class LotAddForm(forms.ModelForm):
     )
 
     price = forms.FloatField(
-        label="Цена",
+        label="Цена аукциона",
         widget=forms.NumberInput(attrs={'class': 'form-control'})
+    )
+
+    price_buy_now = forms.FloatField(
+        label="Цена 'купить сейчас'",
+        widget=forms.NumberInput(attrs={'class': 'form-control'}),
+        required=False
     )
 
     """category = forms.CharField(
@@ -36,7 +43,7 @@ class LotAddForm(forms.ModelForm):
 
     class Meta:
         model = Lot
-        fields = ('name', 'description', 'type_auction', 'time_life', 'price', 'category',)
+        fields = ('name', 'description', 'type_auction', 'time_life', 'price', 'price_buy_now', 'category',)
 
 
 class LotUpdateForm(forms.ModelForm):
@@ -53,4 +60,22 @@ class LotUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Lot
-        fields = 'name', 'description', 'type_auction', 'time_life', 'price', 'category',
+        fields = ('name', 'description', 'type_auction', 'time_life', 'price', 'price_buy_now', 'category',)
+
+
+class CollectionForm(forms.ModelForm):
+    name = forms.CharField(
+        label="Название",
+        widget=forms.TextInput,
+        max_length=255
+    )
+
+    description = forms.CharField(
+        label="Описание",
+        widget=forms.Textarea,
+        max_length=1500
+    )
+
+    class Meta:
+        model = Collection
+        fields = ('name', 'description', 'lots',)

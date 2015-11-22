@@ -23,8 +23,11 @@ class Lot(models.Model):
     type_auction = models.BooleanField('Купить сейчас', default=False)
     time_create = models.DateTimeField('Дата создания', auto_now_add=True)
     time_life = models.IntegerField('Время на аукцион (в днях)')
-    price = models.FloatField('Цена')
+    price = models.FloatField('Актуальная цена')
+    price_buy_now = models.FloatField('Цена купить сейчас', default=0, null=True, blank=True)
     category = models.ManyToManyField(Category)
+    active = models.BooleanField(default=True)
+    archived = models.BooleanField(default=False)
     count_viewers = models.IntegerField('Посетители', default=0)
     author = models.ForeignKey(ExtUser, related_name='author_profile', default='', null=True)
     buyer = models.ForeignKey(ExtUser, related_name='buyer_profile', default='', null=True)
@@ -36,18 +39,17 @@ class Lot(models.Model):
     def __str__(self):
         return self.name
 
-    def get_next_auto_increment(mymodel):
-        from django.db import connection
-        cursor = connection.cursor()
-        cursor.execute("SELECT Auto_increment FROM information_schema.tables WHERE table_name='" + mymodel._meta.db_table +"'")
-        row = cursor.fetchone()
-        cursor.close()
-        return row[0]
-
     class Meta:
         # unique_together = ('author',)
         verbose_name = 'лот'
         verbose_name_plural = 'лоты'
+
+
+class LotRater(models.Model):
+    lot = models.ForeignKey(Lot, default='', verbose_name='Лот')
+    rate = models.FloatField()
+    rater = models.ForeignKey(ExtUser, default='', verbose_name='Покупатель')
+    date = models.DateTimeField(auto_now_add=True)
 
 
 class Photo(models.Model):
@@ -63,6 +65,7 @@ class Collection(models.Model):
     name = models.CharField('Название', max_length=255)
     description = models.TextField('Описание')
     lots = models.ManyToManyField(Lot, verbose_name='Лот')
+    author = models.ForeignKey(ExtUser)
 
     def __str__(self):
         return self.name

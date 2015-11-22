@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+<header>
 {% block header %}
-    <header>
-    <nav class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -17,8 +17,10 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="{% url 'index' %}">Главная</a></li>
-        <li><a href="{% url 'catalog' %}">Лоты</a></li>
+            <li><a href="{% url 'index' %}">Главная</a></li>
+          {% block nav-right %}
+            <li><a href="{% url 'catalog' %}">Лоты</a></li>
+          {% endblock %}
       </ul>
       <form class="navbar-form navbar-left" role="search">
         <div class="form-group">
@@ -32,6 +34,7 @@
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.firstname }}<b class="caret"></b></a>
                   <ul class="dropdown-menu">
                     <li><a href="{% url 'profile' %}">Профиль</a></li>
+                    <li><a href="{% url 'cabinet' %}">Личный кабинет</a></li>
                     <li class="divider"></li>
                     <li><a href="{% url 'logout' %}">Выйти</a></li>
                   </ul>
@@ -43,8 +46,8 @@
     </div>
   </div>
 </nav>
-    </header>
 {% endblock %}
+</header>
 {% block content %}
 <content>
  <ul>

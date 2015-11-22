@@ -1,0 +1,14 @@
+{% extends "index.html" %}
+{% block header %}
+    {{ block.super }}
+    <h1>{{ object.name }}</h1>
+{% endblock %}
+{% block content %}
+<div>Описание: {{ object.description }}</div>
+    {% for lot in object.lots.all %}
+        <div>{{ lot.name }}</div>
+        {% empty %}
+        <div>Лотов нет</div>
+    {% endfor %}
+    <a class="btn btn-default" href="{% url 'col_delete' object.id %}">Распустить</a>
+{% endblock %}

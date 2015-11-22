@@ -1,0 +1,11 @@
+{% extends "index.html" %}
+{% block header %}
+    {{ block.super }}
+    <h1>Редактирование коллекции {{ object.name }}</h1>
+{% endblock %}
+{% block content %}
+<form action="" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Изменить" />
+</form>
+{% endblock %}

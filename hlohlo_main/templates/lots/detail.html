@@ -1,14 +1,51 @@
-{% extends "base.html" %}
+{% extends "index.html" %}
+{% block header %}
+    {{ block.super }}
+    <h1>{{ lot.name }}</h1>
+{% endblock %}
 {% block content %}
-    {{ lot.author }}<br>
-    {{ lot.name }}<br>
-    {{ lot.time_create }}<br>
+    <div>Автор: {{ lot.author }}</div>
+    {% if lot.active == 0 %}
+        <h3><strong>Продано</strong></h3>
+    {% endif %}
+    <div>Дата создание: {{ lot.time_create }}</div>
+    <div>Просмотров: {{ lot.count_viewers }}</div>
     {{ lot.type_auction|yesno:"Купить сейчас, Аукцион, None" }}
-    {% ifchanged %}
+    {% if lot.active == 1 %}
         {{ lot.get_time_left | timeuntil}}
-    {% endifchanged %}
+    {% endif %}
     <br>
+    <div>Цена: {{ lot.price }}</div>
     {{ lot.description }}<br>
-    <a href="{% url 'update' lot.id %}">Изменить</a>
-    <a href="{% url 'delete' lot.id %}">Удалить</a>
+    {% if request.user.is_authenticated and lot.author != request.user and lot.active == 1 %}
+        <form action="{% url 'uprate' lot.id %}" method="post">
+        {% csrf_token %}
+        {% if request.session.errors %}
+            <div class="alert-danger">
+                {{ request.session.errors }}
+            </div>
+        {% endif %}
+
+        {% if request.session.success %}
+            <div class="alert-success">
+                {{ request.session.success }}
+            </div>
+        {% endif %}
+            {% if lot.type_auction == 1 %}
+                <input type="submit" name="buy_now" value="Купить"/>
+            {% else %}
+                <input type="number" name="rate" class="form-control">
+                <input type="submit" name="rate_a" value="Сделать ставку"/>
+            {% endif %}
+        </form>
+    {% endif %}
+    {% if lot.author == request.user %}
+        {% if not lot.active %}
+            <a class="btn btn-default" href="{% url 'archive' lot.id %}">Засунуть в архив</a>
+        {% endif %}
+        {% if not lot.buyer %}
+            <a class="btn btn-default" href="{% url 'update' lot.id %}">Изменить</a>
+        {% endif %}
+            <a class="btn btn-default" href="{% url 'delete' lot.id %}">Удалить</a>
+    {% endif %}
 {% endblock %}

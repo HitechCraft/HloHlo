@@ -1,0 +1,59 @@
+{% extends 'index.html' %}
+{% block nav-right %}
+    <li><a href="{% url 'profile' %}">Мой профиль</a></li>
+    <li class="active"><a href="#my_lots" data-toggle="tab">Мои лоты</a></li>
+    <li><a href="#my_lot_cols" data-toggle="tab">Мои коллекции</a></li>
+    <li><a href="#cart" data-toggle="tab">Корзина</a></li>
+    <li><a href="#favorites" data-toggle="tab">Избранные</a></li>
+    <li><a href="#archive" data-toggle="tab">Архив</a></li>
+{% endblock %}
+{% block header %}
+    {{ block.super }}
+    <h1>Мой кабинет</h1>
+{% endblock %}
+{% block content %}
+  <div class="tab-content">
+  <div class="tab-pane active" id="my_lots">
+          {% for lot in my_lots %}
+            <li><a href="{% url 'detail' lot.id %}">{{ lot.name }}</a></li>
+            {% empty %}
+            <li>Лотов нет</li>
+          {% endfor %}
+      </div>
+      <div class="tab-pane" id="cart">
+          {% for lot in lot_cart %}
+              <li><a href="{% url 'detail' lot.id %}">{{ lot.name }}</a></li>
+                  {% empty %}
+                  <li>Лотов нет</li>
+          {% endfor %}
+      </div>
+      <div class="tab-pane" id="my_lot_cols">
+          {% for lot_col in lot_cols %}
+              <li><a href="{% url 'col_detail' lot_col.id %}">{{ lot_col.name }}</a></li>
+                  {% empty %}
+                  <li>Коллекций нет</li>
+          {% endfor %}
+      </div>
+      <div class="tab-pane" id="favorites">
+          {% for lot in lot_fav %}
+            <li><a href="{% url 'detail' lot.id %}">{{ lot.name }}</a></li>
+            {% empty %}
+            <li>Лотов нет</li>
+          {% endfor %}
+      </div>
+      <div class="tab-pane" id="archive">
+      <h3>Проданные лоты</h3>
+          {% for lot in lot_arch_s %}
+            <li><a href="{% url 'detail' lot.id %}">{{ lot.name }}</a></li>
+          {% empty %}
+              <li>Лотов нет</li>
+          {% endfor %}
+      <h3>Купленные лоты</h3>
+          {% for lot in lot_arch_b %}
+            <li><a href="{% url 'detail' lot.id %}">{{ lot.name }}</a></li>
+          {% empty %}
+              <li>Лотов нет</li>
+          {% endfor %}
+      </div>
+  </div>
+{% endblock %}

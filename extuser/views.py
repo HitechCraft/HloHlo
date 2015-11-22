@@ -1,4 +1,5 @@
 from django.core.urlresolvers import reverse_lazy
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, render, redirect
 from django.template import RequestContext
 from django.contrib.auth import logout
@@ -6,12 +7,13 @@ from hlohlo_main.mixins import Authenticated, NoAuthenticated
 # Create your views here.
 from django.views.generic import FormView
 from extuser.forms import LoginForm, UserCreationForm, UserChangeForm
+from hlohlo_main.models import Lot, Collection
 from .models import ExtUser
 
 
 class LoginFormView(Authenticated, FormView):
     form_class = LoginForm
-    success_url = reverse_lazy('profile')
+    success_url = reverse_lazy('cabinet')
     template_name = "login.html"
 
     def form_valid(self, form):
@@ -75,3 +77,20 @@ def profile(request):
         return redirect('login')
     else:
         return render(request, 'profile.html', {'user': request.user})
+
+
+def cabinet(request):
+    if not request.user.is_authenticated():
+        return redirect('login')
+    else:
+        lot_cols = Collection.objects.filter(author=request.user).order_by('-id')
+        my_lots = Lot.objects.filter(author=request.user).order_by('-time_create')
+        lot_arch_s = Lot.objects.filter(author=request.user, archived=True)\
+            .order_by('-time_create')
+        lot_arch_b = Lot.objects.filter(buyer=request.user, archived=True)\
+            .order_by('-time_create')
+        lot_cart = Lot.objects.filter(buyer=request.user, active=False, archived=False).order_by('-time_create')
+        lot_fav = Lot.objects.filter(buyer=request.user, active=True).order_by('-time_create')
+        return render(request, 'cabinet.html', {'user': request.user, 'lot_cart': lot_cart, 'lot_fav': lot_fav,
+                                                'my_lots': my_lots, 'lot_arch_s': lot_arch_s, 'lot_arch_b': lot_arch_b,
+                                                'lot_cols': lot_cols})
