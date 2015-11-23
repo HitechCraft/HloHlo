@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+{% extends 'index.html' %}
+{% block content %}
 <form action="" method="post">
 {% csrf_token %}
 <!-- as_p для того, чтобы каждый элемент формы был с новой строки -->
 {{ form.as_p }}
-<button type="submit">Войти</button>
+<input class="btn btn-default" type="submit" value="Войти" />
+<a class="btn btn-default" href="{% url 'register' %}">Регистрация</a>
 </form>
-</body>
-</html>
+{% endblock %}

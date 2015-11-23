@@ -1,15 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-<form action="" method="post">
+{% extends 'index.html' %}
+{% block content %}
+<form role="form" action="" method="post">
       {% csrf_token %}
-      <!-- as_p для того, чтобы каждый элемент формы был с новой строки -->
-      {{ form.as_p }}
-      <button type="submit">Зарегистрироваться</button>
+      <ul class="alert-danger">
+          {% for field in form %}
+              {% for error in field.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+          {% endfor %}
+      </ul>
+      <div class="form-group">
+        <label for="email">Email</label>
+        {{ form.email }}
+      </div>
+      <div class="form-group">
+        <label for="name">Имя/Наименование</label>
+        {{ form.firstname }}
+      </div>
+      <div class="form-group">
+        <label for="user_type">Тип пользователя</label>
+        {{ form.user_type }}
+      </div>
+      <div class="form-group">
+        <label for="mobile">Мобильный телефон</label>
+        {{ form.mobile }}
+      </div>
+      <div class="form-group">
+        <label for="skype">Логин Skype</label>
+        {{ form.skype }}
+      </div>
+      <div class="form-group">
+        <label for="password1">Пароль</label>
+        {{ form.password1 }}
+      </div>
+      <div class="form-group">
+        <label for="password2">Подтверждение пароля</label>
+        {{ form.password2 }}
+      </div>
+      <input class="btn btn-default" type="submit" value="Зарегистрироваться"/>
     </form>
-</body>
-</html>
+{% endblock %}

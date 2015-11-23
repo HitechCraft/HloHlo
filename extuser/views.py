@@ -1,12 +1,13 @@
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render, redirect
 from django.template import RequestContext
 from django.contrib.auth import logout
+from django.views import generic
 from hlohlo_main.mixins import Authenticated, NoAuthenticated
 # Create your views here.
 from django.views.generic import FormView
-from extuser.forms import LoginForm, UserCreationForm, UserChangeForm
+from extuser.forms import LoginForm, UserCreationForm, UserChangeForm, UserChangePasswordForm
 from hlohlo_main.models import Lot, Collection
 from .models import ExtUser
 
@@ -49,14 +50,37 @@ class RegisterFormView(Authenticated, FormView):
         return super(RegisterFormView, self).form_valid(form)
 
 
-class UserChangeFormView(FormView):
+class UserChangeFormView(NoAuthenticated, generic.UpdateView):
+    model = ExtUser
     form_class = UserChangeForm
-    success_url = reverse_lazy('edit')
     template_name = "edit.html"
 
-    def form_valid(self, form):
-        form.save()
-        return super(UserChangeFormView, self).form_valid(form)
+    def get_object(self):
+        return get_object_or_404(ExtUser, pk=self.request.user.id)
+
+    """def get(self, request, *args, **kwargs):
+        self.kwargs['pk'] = request.user.id
+        self.object = ExtUser.objects.get(id=self.request.user.id)
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        context = self.get_context_data(object=self.object, form=form)
+        return self.render_to_response(context)
+        """
+
+    def get_success_url(self):
+        return reverse_lazy('profile')
+
+
+class UserChangePasswordView(NoAuthenticated, generic.UpdateView):
+    model = ExtUser
+    form_class = UserChangePasswordForm
+    template_name = "change_pass.html"
+
+    def get_object(self):
+        return get_object_or_404(ExtUser, pk=self.request.user.id)
+
+    def get_success_url(self):
+        return reverse_lazy('profile')
 
 
 def index(request):

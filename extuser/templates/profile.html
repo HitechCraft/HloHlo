@@ -6,5 +6,6 @@
     {{ user.email }}<br>
     {{ user.register_date}}<br>
     </div>
-    <a class="btn btn-default" href="{% url 'edit' %}">Изменить</a>
+    <a class="btn btn-default" href="{% url 'edit' %}">Изменить данные</a>
+    <a class="btn btn-default" href="{% url 'change_pass' %}">Сменить пароль</a>
 {% endblock %}
