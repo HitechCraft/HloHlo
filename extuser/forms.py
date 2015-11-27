@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import get_user_model
 from django.shortcuts import redirect
 from django.views.generic import FormView
+from multiupload.fields import MultiFileField
 from extuser.models import ExtUser
 
 
@@ -59,6 +60,8 @@ class UserCreationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+    attachments = MultiFileField(label="Выберите фото", max_num=1, max_file_size=1024*1024*5, required=False)
 
     class Meta:
         model = get_user_model()
@@ -114,8 +117,6 @@ class UserChangePasswordForm(forms.ModelForm):
 
 class LoginForm(forms.Form):
 
-    """Форма для входа в систему
-    """
     email = forms.EmailField(
         error_messages={'required': 'Введите Email'},
     )

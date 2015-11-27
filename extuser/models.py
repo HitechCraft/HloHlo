@@ -108,3 +108,12 @@ class ExtUser(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
+
+
+class Avatar(models.Model):
+    user = models.ForeignKey(ExtUser, default='', verbose_name='Пользователь')
+    file = models.ImageField("Аватар", upload_to='images/avatars', help_text='Форматы: png, jpg, jpeg, bmp. gif')
+
+    class Meta:
+        verbose_name = 'Аватар'
+        verbose_name_plural = 'Аватар'

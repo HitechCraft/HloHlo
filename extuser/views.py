@@ -4,12 +4,13 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.template import RequestContext
 from django.contrib.auth import logout
 from django.views import generic
+from HloHlo import settings
 from hlohlo_main.mixins import Authenticated, NoAuthenticated
 # Create your views here.
 from django.views.generic import FormView
 from extuser.forms import LoginForm, UserCreationForm, UserChangeForm, UserChangePasswordForm
-from hlohlo_main.models import Lot, Collection
-from .models import ExtUser
+from hlohlo_main.models import Lot, Collection, Photo
+from .models import ExtUser, Avatar
 
 
 class LoginFormView(Authenticated, FormView):
@@ -32,17 +33,25 @@ class LogoutView(FormView):
         return redirect('login')
 
 
-class RegisterFormView(Authenticated, FormView):
+class RegisterFormView(Authenticated, generic.CreateView):
+    model = ExtUser
     form_class = UserCreationForm
-
+    avatars = []
     # Ссылка, на которую будет перенаправляться пользователь в случае успешной регистрации.
     # В данном случае указана ссылка на страницу входа для зарегистрированных пользователей.
     success_url = reverse_lazy('login')
+
+    def get_success_url(self):
+        for avatar in self.avatars:
+            Avatar.objects.create(user=ExtUser.objects.all().get(id=self.object.id), file=avatar)
+
+        return reverse('login')
 
     # Шаблон, который будет использоваться при отображении представления.
     template_name = "register.html"
 
     def form_valid(self, form):
+        self.avatars = form.cleaned_data['attachments']
         # Создаём пользователя, если данные в форму были введены корректно.
         form.save()
 
@@ -100,7 +109,8 @@ def profile(request):
     if not request.user.is_authenticated():
         return redirect('login')
     else:
-        return render(request, 'profile.html', {'user': request.user})
+        avatar = Avatar.objects.get(user=request.user)
+        return render(request, 'profile.html', {'user': request.user, 'avatar': avatar, 'media': settings.MEDIA_URL})
 
 
 def cabinet(request):

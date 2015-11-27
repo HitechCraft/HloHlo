@@ -1,14 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+{% extends 'index.html' %}
+{% block header %}
+    {{ block.super }}
+    <h1>Удаление лота "{{ object.name }}"</h1>
+{% endblock %}
+{% block content %}
     <form action="" method="post">{% csrf_token %}
         <p>Вы действительно хотите удалить лот "{{ object.name }}"?</p>
     <input type="submit" value="Подтвердить" />
    <a href="{% url 'detail' object.id %}">Отмена</a>
 </form>
-</body>
-</html>
+{% endblock %}

@@ -2,20 +2,26 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.template import RequestContext
 from django.views import generic
 from django.core.urlresolvers import reverse_lazy, reverse
+from HloHlo import settings
 from .forms import LotAddForm, LotUpdateForm, CollectionForm
 from hlohlo_main.mixins import NoAuthenticated
-from .models import Lot, LotRater, Collection
+from .models import Lot, LotRater, Collection, Photo
 
 
 class LotAddView(NoAuthenticated, generic.CreateView):
     model = Lot
     template_name = 'lots/add_lot.html'
     form_class = LotAddForm
+    Photos = []
 
     def get_success_url(self):
+        for each in self.Photos:
+            Photo.objects.create(lot=Lot.objects.all().get(id=self.object.id), file=each)
+
         return reverse('detail', kwargs={'lot_id': self.object.id})
 
     def form_valid(self, form):
+        self.Photos = form.cleaned_data['attachments']
         form.instance.author = self.request.user
         return super(LotAddView, self).form_valid(form)
 
@@ -118,18 +124,20 @@ def detail(request, lot_id): #в будущем переписать этот к
     lot = get_object_or_404(Lot, id=lot_id)
     lot.count_viewers += 1
     lot.save()
+    photos = Photo.objects.filter(lot_id=lot_id)
+    context = {'lot': lot, 'photos': photos, 'media': settings.MEDIA_URL}
     if 'flag' in request.session:
         if request.session['flag'] == 1:
             request.session['flag'] = 2
-            return render(request, 'lots/detail.html', {'lot': lot})
+            return render(request, 'lots/detail.html', context)
         else:
             if 'success' in request.session:
                 del request.session['success']
             if 'errors' in request.session:
                 del request.session['errors']
-            return render(request, 'lots/detail.html', {'lot': lot})
+            return render(request, 'lots/detail.html', context)
     else:
-        return render(request, 'lots/detail.html', {'lot': lot})
+        return render(request, 'lots/detail.html', context)
 
 
 def archive(request, lot_id):

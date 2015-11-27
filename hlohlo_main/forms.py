@@ -1,6 +1,10 @@
 from django import forms
-from django.shortcuts import redirect
-from .models import Lot, Category, Collection
+from multiupload.fields import MultiFileField
+from .models import Lot, Category, Collection, Photo
+
+
+class UploadForm(forms.Form):
+    attachments = MultiFileField(min_num=1, max_num=5, max_file_size=1024*1024*5)
 
 
 class LotAddForm(forms.ModelForm):
@@ -41,9 +45,11 @@ class LotAddForm(forms.ModelForm):
         widget=forms.SelectMultiple(choices=Category.objects.values_list('id', 'name'))
     )"""
 
+    attachments = MultiFileField(label="Выберите до 5ти фото", min_num=1, max_num=3, max_file_size=1024*1024*5)
+
     class Meta:
         model = Lot
-        fields = ('name', 'description', 'type_auction', 'time_life', 'price', 'price_buy_now', 'category',)
+        fields = ('name', 'description', 'type_auction', 'time_life', 'price', 'price_buy_now', 'category')
 
 
 class LotUpdateForm(forms.ModelForm):

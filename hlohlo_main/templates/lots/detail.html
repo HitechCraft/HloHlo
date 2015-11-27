@@ -4,6 +4,11 @@
     <h1>{{ lot.name }}</h1>
 {% endblock %}
 {% block content %}
+    <div>
+    {% for photo in photos %}
+        <img src="{{ media }}{{ photo.file }}" style="max-width: 200px;max-height: 200px;">
+    {% endfor %}
+    </div>
     <div>Автор: {{ lot.author }}</div>
     {% if lot.active == 0 %}
         <h3><strong>Продано</strong></h3>
