@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import redirect
 from django.views.generic import FormView
 from multiupload.fields import MultiFileField
-from extuser.models import ExtUser
+from extuser.models import ExtUser, Avatar
 
 
 class UserCreationForm(forms.ModelForm):
@@ -79,6 +79,19 @@ class UserChangeForm(forms.ModelForm):
     class Meta:
         model = get_user_model()
         fields = ['firstname', 'mobile', 'skype']
+
+
+class AvatarChangeForm(forms.ModelForm):
+
+    file = forms.ImageField(
+        label="",
+        widget=forms.FileInput,
+        help_text='Форматы: png, jpg, jpeg, bmp. gif',
+    )
+
+    class Meta:
+        model = Avatar
+        fields = ['file']
 
 
 class UserChangePasswordForm(forms.ModelForm):

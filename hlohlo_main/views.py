@@ -125,7 +125,7 @@ def detail(request, lot_id): #в будущем переписать этот к
     lot.count_viewers += 1
     lot.save()
     photos = Photo.objects.filter(lot_id=lot_id)
-    context = {'lot': lot, 'photos': photos, 'media': settings.MEDIA_URL}
+    context = {'lot': lot, 'photos': photos}
     if 'flag' in request.session:
         if request.session['flag'] == 1:
             request.session['flag'] = 2

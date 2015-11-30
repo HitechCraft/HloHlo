@@ -1,9 +1,16 @@
 {% extends 'index.html' %}
 {% block content %}
 <form action="" method="post">
+<img src="/media/{{ view.get_user_avatar.file }}" style="max-width: 200px; max-height: 200px">
+<a class="btn btn-default" href="{% url 'change_avatar' %}">Загрузить другое фото</a>
   {% csrf_token %}
   <!-- as_p для того, чтобы каждый элемент формы был с новой строки -->
   {{ form.as_p }}
-  <input class="btn btn-default" type="submit" />
+    <div class="form-group">
+        <label for="email">Пароль: </label>
+        <input type="password" value="12345678" disabled>
+        <a class="btn btn-default" href="{% url 'change_pass' %}">Сменить пароль</a>
+    </div>
+  <input class="btn btn-default" type="submit" value="Сохранить"/>
 </form>
 {% endblock %}

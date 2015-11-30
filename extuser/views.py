@@ -8,7 +8,7 @@ from HloHlo import settings
 from hlohlo_main.mixins import Authenticated, NoAuthenticated
 # Create your views here.
 from django.views.generic import FormView
-from extuser.forms import LoginForm, UserCreationForm, UserChangeForm, UserChangePasswordForm
+from extuser.forms import LoginForm, UserCreationForm, UserChangeForm, UserChangePasswordForm, AvatarChangeForm
 from hlohlo_main.models import Lot, Collection, Photo
 from .models import ExtUser, Avatar
 
@@ -67,17 +67,11 @@ class UserChangeFormView(NoAuthenticated, generic.UpdateView):
     def get_object(self):
         return get_object_or_404(ExtUser, pk=self.request.user.id)
 
-    """def get(self, request, *args, **kwargs):
-        self.kwargs['pk'] = request.user.id
-        self.object = ExtUser.objects.get(id=self.request.user.id)
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        context = self.get_context_data(object=self.object, form=form)
-        return self.render_to_response(context)
-        """
-
     def get_success_url(self):
         return reverse_lazy('profile')
+
+    def get_user_avatar(self):
+        return Avatar.objects.get(user=self.request.user.id)
 
 
 class UserChangePasswordView(NoAuthenticated, generic.UpdateView):
@@ -86,7 +80,19 @@ class UserChangePasswordView(NoAuthenticated, generic.UpdateView):
     template_name = "change_pass.html"
 
     def get_object(self):
-        return get_object_or_404(ExtUser, pk=self.request.user.id)
+        return get_object_or_404(self.model, pk=self.request.user.id)
+
+    def get_success_url(self):
+        return reverse_lazy('profile')
+
+
+class AvatarChangeFormView(NoAuthenticated, generic.UpdateView):
+    model = Avatar
+    form_class = AvatarChangeForm
+    template_name = "avatar_change.html"
+
+    def get_object(self):
+        return get_object_or_404(self.model, user=self.request.user.id)
 
     def get_success_url(self):
         return reverse_lazy('profile')
@@ -110,7 +116,7 @@ def profile(request):
         return redirect('login')
     else:
         avatar = Avatar.objects.get(user=request.user)
-        return render(request, 'profile.html', {'user': request.user, 'avatar': avatar, 'media': settings.MEDIA_URL})
+        return render(request, 'profile.html', {'user': request.user, 'avatar': avatar})
 
 
 def cabinet(request):

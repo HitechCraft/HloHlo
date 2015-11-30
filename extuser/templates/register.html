@@ -5,7 +5,7 @@
       <ul class="alert-danger">
           {% for field in form %}
               {% if field.errors %}
-              <li>{{ field.name }}
+              <li>{{ field.label }}
               <ul>
               {% for error in field.errors %}
                 <li>{{ error }}</li>

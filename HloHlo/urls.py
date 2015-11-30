@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^users/', include('extuser.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^lots/', include('hlohlo_main.urls')),
+    url(r'^search/', include('haystack.urls')),
 ]
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

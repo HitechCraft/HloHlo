@@ -1,0 +1,10 @@
+{% extends 'index.html' %}
+{% block content %}
+<form action="" method="post" enctype="multipart/form-data">
+<img src="{{ form.instance.file.url }}" style="max-width: 200px; max-height: 200px">
+  {% csrf_token %}
+  <!-- as_p для того, чтобы каждый элемент формы был с новой строки -->
+  {{ form.as_p }}
+  <input class="btn btn-default" type="submit" value="Изменить"/>
+</form>
+{% endblock %}

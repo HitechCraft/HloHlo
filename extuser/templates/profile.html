@@ -1,6 +1,6 @@
 {% extends 'index.html' %}
 {% block content %}
-    <img src="{{ media }}{{ avatar.file }}">
+    <img src="{{ MEDIA_URL }}{{ avatar.file }}" style="max-width: 200px; max-height: 200px">
     <div class="col-lg-12">
     {{ user.id }}<br>
     {{ user.firstname }}<br>
